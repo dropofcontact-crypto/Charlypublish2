@@ -1,0 +1,16 @@
+{
+  "name": "Charly Reeds",
+  "short_name": "Charly Reeds",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/assets/CR_icon_8_play_512_fin.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

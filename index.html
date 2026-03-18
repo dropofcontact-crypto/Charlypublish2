@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Charly Reeds</title>
+    <link rel="icon" type="image/png" href="/assets/CR_icon_8_play_512_fin.png" />
+    <link rel="apple-touch-icon" href="/assets/CR_icon_8_play_512_fin.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              'tech': ['"Share Tech Mono"', 'monospace'],
+            },
+            colors: {
+              safari: {
+                50: '#f4faea',
+                100: '#e5f4d0',
+                200: '#cce9a3',
+                300: '#b2de75',
+                400: '#9cd55e',
+                500: '#8BC24A', // Jungle Grass Green
+                600: '#76a83d',
+                700: '#628e32',
+                800: '#4f7428',
+                900: '#3d5a20',
+              },
+              night: {
+                bg: '#0f0c29',
+                card: '#24243e',
+                text: '#e2d9f3',
+                accent: '#7c3aed', // Violet
+                secondary: '#302b63'
+              }
+            },
+            animation: {
+              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'bounce-slight': 'bounceSmall 2s infinite',
+              'zoom-pulse': 'zoomPulse 2s ease-in-out infinite',
+              'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
+            },
+            keyframes: {
+              bounceSmall: {
+                '0%, 100%': { transform: 'translateY(-2%)', animationTimingFunction: 'cubic-bezier(0.8,0,1,1)' },
+                '50%': { transform: 'translateY(0)', animationTimingFunction: 'cubic-bezier(0,0,0.2,1)' },
+              },
+              zoomPulse: {
+                '0%, 100%': { transform: 'scale(1)' },
+                '50%': { transform: 'scale(1.05)' },
+              },
+              shake: {
+                '0%, 100%': { transform: 'translateX(0)' },
+                '10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-5px)' },
+                '20%, 40%, 60%, 80%': { transform: 'translateX(5px)' }
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@400;600;700;800&family=Share+Tech+Mono&display=swap');
+      
+      :root {
+        /* Updated gradient to match Jungle Grass Green tint */
+        --bg-primary: linear-gradient(180deg, #bae6fd 0%, #f4faea 40%, #e5f4d0 100%);
+        --text-primary: #1e293b;
+        --card-bg: rgba(255, 255, 255, 0.9);
+        --btn-bg: #8BC24A;
+        --btn-hover: #76a83d;
+        --btn-text: #ffffff;
+        --accent-color: #8BC24A;
+        --border-color: #8BC24A;
+      }
+
+      /* CRITICAL FIX for Edging Behavior: Force Auto scroll to prevent conflicting with JS 'instant' scrolling */
+      html {
+        scroll-behavior: auto !important;
+      }
+
+      body.dark {
+        --bg-primary: linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+        --text-primary: #e2d9f3;
+        --card-bg: rgba(36, 36, 62, 0.95);
+        --btn-bg: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%);
+        --btn-hover: linear-gradient(135deg, #6d28d9 0%, #3b0764 100%);
+        --btn-text: #ffffff;
+        --accent-color: #7c3aed;
+        --border-color: #7c3aed;
+      }
+
+      body {
+        font-family: 'Nunito', sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        min-height: 100vh;
+        transition: background 0.5s ease, color 0.5s ease;
+      }
+
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: rgba(156, 163, 175, 0.5);
+        border-radius: 20px;
+      }
+      .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: rgba(75, 85, 99, 0.5);
+      }
+      
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Fredoka', sans-serif;
+      }
+
+      .btn-primary {
+        background: var(--btn-bg);
+        color: var(--btn-text);
+        transition: all 0.2s;
+      }
+      .btn-primary:hover {
+        transform: scale(1.02);
+        filter: brightness(1.1);
+      }
+      .btn-primary:active {
+        transform: scale(0.98);
+      }
+      
+      .border-theme {
+        border-color: var(--border-color);
+      }
+      
+      .text-theme {
+        color: var(--accent-color);
+      }
+
+      /* 3D Page Flip Animation */
+      .page-enter {
+        animation: pageFlipIn 0.8s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+        transform-origin: left center;
+        backface-visibility: hidden;
+        opacity: 0;
+      }
+
+      @keyframes pageFlipIn {
+        0% {
+          opacity: 0;
+          transform: perspective(2000px) rotateY(-90deg);
+        }
+        100% {
+          opacity: 1;
+          transform: perspective(2000px) rotateY(0deg);
+        }
+      }
+
+      /* App Frame */
+      .app-frame {
+        max-width: 100%;
+        min-height: 100vh;
+        margin: 0 auto;
+        border: 8px solid rgba(255,255,255,0.3);
+        box-shadow: inset 0 0 50px rgba(0,0,0,0.05);
+        /* Ensure scrolling works if content overflows */
+        overflow-y: auto;
+      }
+      
+      body.dark .app-frame {
+        border-color: rgba(165, 180, 252, 0.1);
+      }
+
+      @media (min-width: 768px) {
+        .app-frame {
+          max-width: 800px;
+          min-height: 95vh;
+          margin-top: 2.5vh;
+          border-radius: 40px;
+          border-width: 12px;
+          background: rgba(255,255,255,0.05);
+          position: relative;
+          overflow: hidden;
+          overflow-y: auto;
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+      }
+
+      .select-none {
+        user-select: none;
+        -webkit-user-select: none;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/client": "https://esm.sh/react-dom@^19.2.3/client",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.35.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
