@@ -308,9 +308,28 @@ export async function* streamStory(
   genre: string,
   twist: string,
   title: string,
-  difficulty: Difficulty
+  difficulty: Difficulty,
+  exclusions?: { genres: string[], twists: string[], titles: string[] }
 ): AsyncGenerator<string, void, unknown> {
   const config = getLevelConfig(level, difficulty);
+  
+  let exclusionPrompt = "";
+  if (exclusions) {
+      const recentTitles = exclusions.titles.slice(-20).join('", "');
+      const recentTwists = exclusions.twists.slice(-20).join('", "');
+      const recentGenres = exclusions.genres.slice(-20).join('", "');
+      
+      if (recentTitles || recentTwists || recentGenres) {
+          exclusionPrompt = `
+          
+          CONTEXT: The reader has already completed stories with these themes:
+          - Recent Titles: ${recentTitles}
+          - Recent Twists: ${recentTwists}
+          - Recent Genres: ${recentGenres}
+          
+          Please ensure this NEW story feels fresh, unique, and distinct from those previous ideas. Avoid repeating specific plot points, character names, or unique descriptions from those past adventures.`;
+      }
+  }
   
   // Note: We do NOT request JSON here to make streaming smoother.
   // We ask for plain text with double newline separation for paragraphs.
@@ -324,6 +343,7 @@ export async function* streamStory(
   Genre: ${genre}
   Plot Twist: ${twist}
   Title: ${title}
+  ${exclusionPrompt}
   
   IMPORTANT: Output the story in plain text. Separate paragraphs with double newlines. Do not include a title header or "The End". Just the raw story text.
   

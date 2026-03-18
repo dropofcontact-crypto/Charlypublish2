@@ -393,7 +393,7 @@ export const App: React.FC = () => {
 
     try {
       // 1. Start streaming the story text
-      const stream = streamStory(currentLevel, genre, twist, title, difficulty);
+      const stream = streamStory(currentLevel, genre, twist, title, difficulty, progress.usedOptions);
       
       let storyText = "";
       let quizText = "";
@@ -621,9 +621,15 @@ export const App: React.FC = () => {
   const handleRetryStory = () => {
     if (showEndGamePopup) return;
     if (progress.settings.difficulty === 'Void') { startVoidStory(); return; }
-    const storyId = `${currentLevel}-${currentStoryNum}`;
-    if (progress.savedStories[storyId]) setAppState('reading');
-    else startStorySetup(currentLevel, currentStoryNum);
+    
+    // If we have current parameters, generate a NEW story with them
+    if (currentStoryParams) {
+      generateActualStory(currentStoryParams.genre, currentStoryParams.twist, currentStoryParams.title);
+    } else {
+      const storyId = `${currentLevel}-${currentStoryNum}`;
+      if (progress.savedStories[storyId]) setAppState('reading');
+      else startStorySetup(currentLevel, currentStoryNum);
+    }
   };
 
   const getVictoryMessage = (difficulty: Difficulty) => {
@@ -1136,7 +1142,7 @@ const ApiSetupScreen: React.FC<{
           
           <div className="mt-6 p-4 bg-orange-50 dark:bg-orange-900/20 border-2 border-orange-200 dark:border-orange-800 rounded-2xl text-center">
             <p className="text-xs text-orange-800 dark:text-orange-300 font-black mb-1 uppercase tracking-wider">
-              📢 Attention Big Reeders (Parents)!
+              Parents/Adults
             </p>
             <p className="text-sm text-orange-700 dark:text-orange-200 font-bold leading-relaxed">
               By starting our adventure, you agree to our <a href="https://sites.google.com/view/charly-reeds-terms-conditions/home?read_current=1" target="_blank" rel="noopener noreferrer" className="underline font-black hover:text-orange-500">Terms & Conditions</a>. 
